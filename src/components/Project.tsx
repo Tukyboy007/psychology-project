@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import ProjectDetails from "./ProjectDetails";
 
 interface Tag {
@@ -45,12 +46,18 @@ const Project: React.FC<ProjectProps> = ({
             ))}
           </div>
         </div>
+
         <button
           onClick={() => setIsHidden(true)}
           className="flex items-center gap-1 cursor-pointer hover-animation"
         >
           Read More
-          <img src="/assets/arrow-right.svg" alt="Read More" className="w-5" />
+          <Image
+            src="/assets/arrow-right.svg"
+            alt="Read More"
+            width={20}
+            height={20}
+          />
         </button>
       </div>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { twMerge } from "tailwind-merge";
+import Image from "next/image"; // ✅ import next/image
 import Marquee from "../components/Marquee";
 import { reviews } from "../constants";
 
@@ -22,12 +23,13 @@ const ReviewCard: React.FC<Review> = ({ img, name, username, body }) => {
       )}
     >
       <div className="flex flex-row items-center gap-2">
-        <img
-          className="rounded-full bg-white/10"
-          width="32"
-          height="32"
-          alt={`${name}'s profile`}
+        {/* ✅ Replaced <img> with <Image /> */}
+        <Image
           src={img}
+          alt={`${name}'s profile`}
+          width={32}
+          height={32}
+          className="rounded-full bg-white/10"
         />
         <div className="flex flex-col">
           <figcaption className="text-sm font-medium text-white">

@@ -5,6 +5,7 @@ import Card from "../components/Card";
 import { Globe } from "../components/globe";
 import CopyEmailButton from "../components/CopyEmailButton";
 import { Frameworks } from "@/components/Frameworks";
+import Image from "next/image";
 
 const About = () => {
   const grid2Container = useRef<HTMLDivElement | null>(null);
@@ -15,13 +16,16 @@ const About = () => {
       <div className="grid grid-cols-1 gap-4 md:grid-cols-6 md:auto-rows-[18rem] mt-12">
         {/* Grid 1 */}
         <div className="flex items-end grid-default-color grid-1">
-          <img
+          <Image
             src="/assets/coding-pov.png"
             alt="Coding POV"
+            width={600}
+            height={600}
             className="absolute scale-[1.75] -right-[5rem] -top-[1rem] md:scale-[3] md:left-50 md:inset-y-10 lg:scale-[2.5]"
+            priority
           />
           <div className="z-10">
-            <p className="headtext">Hi, i'm DevTester</p>
+            <p className="headtext">Hi, i`&apos;`m DevTester</p>
             <p className="subtext">
               Lorem ipsum dolor sit, amet consectetur adipisicing elit. Optio
               molestias impedit expedita velit maiores saepe eaque nulla,
@@ -44,42 +48,34 @@ const About = () => {
             <Card
               style={{ rotate: "75deg", top: "30%", left: "20%" }}
               text="ISP"
-              containerRef={grid2Container}
             />
             <Card
               style={{ rotate: "-30deg", top: "60%", left: "45%" }}
               text="SLP"
-              containerRef={grid2Container}
             />
             <Card
               style={{ rotate: "90deg", bottom: "30%", left: "70%" }}
               text="FEELING"
-              containerRef={grid2Container}
             />
             <Card
               style={{ rotate: "-45deg", top: "55%", left: "0%" }}
               text="PSD"
-              containerRef={grid2Container}
             />
             <Card
               style={{ rotate: "20deg", top: "10%", left: "38%" }}
               text="SRP"
-              containerRef={grid2Container}
             />
             <Card
               style={{ rotate: "30deg", top: "70%", left: "70%" }}
               image="/assets/logos/logo.png"
-              containerRef={grid2Container}
             />
             <Card
               style={{ rotate: "-45deg", top: "70%", left: "25%" }}
               image="/assets/logos/logo1.png"
-              containerRef={grid2Container}
             />
             <Card
               style={{ rotate: "-45deg", top: "5%", left: "10%" }}
               image="/assets/logos/logo2.png"
-              containerRef={grid2Container}
             />
           </div>
         </div>
@@ -88,7 +84,7 @@ const About = () => {
           <div className="z-10 w-[50%]">
             <p className="headtext">Time Zone</p>
             <p className="subtext">
-              I'm based in Mars, and open to study with you
+              I`&apos;`m based in Mars, and open to study with you
             </p>
           </div>
           <figure className="absolute left-[30%] top-[10%]">

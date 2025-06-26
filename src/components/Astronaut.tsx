@@ -1,27 +1,48 @@
-"use client"; // for Next.js App Router (if needed for client components)
+"use client";
 
 import React, { useEffect, useRef } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import { useMotionValue, useSpring } from "motion/react";
 import { useFrame } from "@react-three/fiber";
-import { Group } from "three";
+import {
+  Group,
+  SkinnedMesh,
+  Material,
+  AnimationClip,
+  Object3D,
+  BufferGeometry,
+  Skeleton,
+} from "three";
 
 interface AstronautProps {
   position?: [number, number, number];
   scale?: number;
-  [key: string]: any; // for passing extra props like rotation, etc.
+  rotation?: [number, number, number];
 }
 
-export function Astronaut(props: AstronautProps) {
+interface GLTFResult {
+  nodes: Record<
+    string,
+    | (SkinnedMesh & {
+        geometry: BufferGeometry;
+        skeleton: Skeleton;
+      })
+    | Object3D
+  >;
+  materials: Record<string, Material>;
+  animations: AnimationClip[];
+}
+
+export function Astronaut({
+  position = [1.3, -1, 0],
+  scale = 0.3,
+  rotation = [-Math.PI / 2, -0.2, 2.2],
+}: AstronautProps) {
   const group = useRef<Group>(null);
 
   const { nodes, materials, animations } = useGLTF(
     "/models/tenhun_falling_spaceman_fanart.glb"
-  ) as unknown as {
-    nodes: Record<string, any>;
-    materials: Record<string, any>;
-    animations: any[];
-  };
+  ) as unknown as GLTFResult;
 
   const { actions } = useAnimations(animations, group);
 
@@ -44,41 +65,46 @@ export function Astronaut(props: AstronautProps) {
     }
   });
 
+  const meshNames = [
+    "Cube001_0",
+    "Cube005_0",
+    "Cube002_0",
+    "Plane_0",
+    "Cube008_0",
+    "Cube004_0",
+    "Cube003_0",
+    "Cube_0",
+    "Cube009_0",
+    "Cube011_0",
+  ];
+
   return (
     <group
       ref={group}
-      {...props}
       dispose={null}
-      rotation={[-Math.PI / 2, -0.2, 2.2]}
-      scale={props.scale || 0.3}
-      position={props.position || [1.3, -1, 0]}
+      rotation={rotation}
+      scale={scale}
+      position={position}
     >
       <group name="Sketchfab_Scene">
         <group name="Sketchfab_model">
           <group name="Root">
             <group name="metarig">
-              <primitive object={nodes.metarig_rootJoint} />
-              {[
-                "Cube001_0",
-                "Cube005_0",
-                "Cube002_0",
-                "Plane_0",
-                "Cube008_0",
-                "Cube004_0",
-                "Cube003_0",
-                "Cube_0",
-                "Cube009_0",
-                "Cube011_0",
-              ].map((name) => (
-                <skinnedMesh
-                  key={name}
-                  name={name}
-                  geometry={nodes[name].geometry}
-                  material={materials["AstronautFallingTexture.png"]}
-                  skeleton={nodes[name].skeleton}
-                />
-              ))}
-              {/* Extra groups, some with transforms */}
+              {"metarig_rootJoint" in nodes && (
+                <primitive object={nodes.metarig_rootJoint as Object3D} />
+              )}
+              {meshNames.map((name) => {
+                const mesh = nodes[name] as SkinnedMesh;
+                return (
+                  <skinnedMesh
+                    key={name}
+                    name={name}
+                    geometry={mesh.geometry}
+                    material={materials["AstronautFallingTexture.png"]}
+                    skeleton={mesh.skeleton}
+                  />
+                );
+              })}
               <group name="Cube001" />
               <group name="Cube005" />
               <group name="Cube002" />
